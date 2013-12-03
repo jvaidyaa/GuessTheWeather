@@ -22,10 +22,15 @@
 package com.hack.guess.mbean;
 
 import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
@@ -33,6 +38,8 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.apache.tomcat.dbcp.dbcp.BasicDataSource;
 
 
 
@@ -61,24 +68,35 @@ public abstract class AbstractMessageBean implements MessageBean {
 		return request;
 	}
 
+
+	
 	public void setDependencies(PageContext context) {
 		System.out.println("Inside AbstractMessageBean::setDependencies");
 
 		try {
 			this.context = context;
+			System.out.println("1");
 			this.request = (HttpServletRequest) context.getRequest();
+			System.out.println("2");
 			this.response = (HttpServletResponse) context.getResponse();
+			System.out.println("3");
+			dop = request.getParameter("data["+dop+"]");
+			System.out.println("dop" + dop);
+			email = request.getParameter("data["+email+"]");
+			System.out.println("email" +email);
+			zip = request.getParameter("data["+zip+"]");
+			System.out.println("zip" +zip);
+			prediction = request.getParameter("data["+prediction+"]");
+			System.out.println("prediction"+prediction);
 			
-			dop = request.getParameter("dop");
-			email = request.getParameter("email");
-			zip = request.getParameter("zip");
-			prediction = request.getParameter("prediction");
 
 		} catch (Exception e) {
 			//e.printStackTrace();
          System.out.println("Error in setDependencies(): ");
 		}
 	}
+	
+	
 
 	public String getDop() {
 		return dop;

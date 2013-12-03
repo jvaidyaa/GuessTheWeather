@@ -37,78 +37,70 @@ public class AppCookie {
     /*
      * addCookie method creates a cookie and adds it to the Http response
      */
-    public static void addCookie(HttpServletRequest request, HttpServletResponse response, String name, String value, int seconds){
-    	System.out.println("Inside addCookie... name:<" + name + "> value<"+ value+ "> " );
-    	if (value == null || value.isEmpty()){
-    		return;
-    	}
-    	seconds = 2*3600;
-    	String eValue = new String(value.getBytes());   	
-    	
-    	System.out.println("Setting cookie in response name:" + name + " value:"+ value+ " > eValue<" + eValue + ">");
-    	Cookie storedCookie = getCookie(request, name);
-    	if (storedCookie != null){
-    		storedCookie.setValue(eValue);
-    	}
-    	else{
-    		storedCookie = new Cookie(name, eValue);
-    	}
-    	storedCookie.setPath(COOKIE_PATH + "/"); //for other browsers
-    	storedCookie.setSecure(request.isSecure());
-    	storedCookie.setMaxAge(seconds); 
-    	storedCookie.setVersion(1);
-        response.addCookie(storedCookie);       
-    }
+//    public static void addCookie(HttpServletRequest request, HttpServletResponse response, String name, String value, int seconds){
+//    	System.out.println("Inside addCookie... name:<" + name + "> value<"+ value+ "> " );
+//    	if (value == null || value.isEmpty()){
+//    		return;
+//    	}
+//    	seconds = 2*3600;
+//    	String eValue = new String(value.getBytes());   	
+//    	
+//    	System.out.println("Setting cookie in response name:" + name + " value:"+ value+ " > eValue<" + eValue + ">");
+//    	Cookie storedCookie = getCookie(request, name);
+//    	if (storedCookie != null){
+//    		storedCookie.setValue(eValue);
+//    	}
+//    	else{
+//    		storedCookie = new Cookie(name, eValue);
+//    	}
+//    	storedCookie.setPath(COOKIE_PATH + "/"); //for other browsers
+//    	storedCookie.setSecure(request.isSecure());
+//    	storedCookie.setMaxAge(seconds); 
+//    	storedCookie.setVersion(1);
+//        response.addCookie(storedCookie);       
+//    }
     
     /*
      * deleteCookie method destroys a cookie on the browser
      */
-    public static void deleteCookie (HttpServletRequest request, HttpServletResponse response, String name){
-    	System.out.println("Inside deleteCookie... name:" + name );
-    	Cookie storedCookie = getCookie(request, name);
-    	if (storedCookie != null){
-    		storedCookie.setValue("");
-            storedCookie.setMaxAge(0);    // kill the cookie when now...
-            storedCookie.setPath(COOKIE_PATH + "/"); //for other browsers
-            response.addCookie(storedCookie);
-            //fix for remove chrome's cookies
-            Cookie cookieChrome = (Cookie) storedCookie.clone();
-            cookieChrome.setPath(COOKIE_PATH);//akvel: for chrome!!
-            response.addCookie(cookieChrome);
-            System.out.println("Removing cookie in response name:" + name );
-    	}
-    	else{
-    		System.out.println("cookie <" + name +"> doesn't exist ...");
-    	}
-    	
-    }
+//    public static void deleteCookie (HttpServletRequest request, HttpServletResponse response, String name){
+//    	System.out.println("Inside deleteCookie... name:" + name );
+//    	String storedCookie = getCookie(request, name);
+//    	if (storedCookie != null){
+//    		storedCookie.setValue("");
+//            storedCookie.setMaxAge(0);    // kill the cookie when now...
+//            storedCookie.setPath(COOKIE_PATH + "/"); //for other browsers
+//            response.addCookie(storedCookie);
+//            //fix for remove chrome's cookies
+//            Cookie cookieChrome = (Cookie) storedCookie.clone();
+//            cookieChrome.setPath(COOKIE_PATH);//akvel: for chrome!!
+//            response.addCookie(cookieChrome);
+//            System.out.println("Removing cookie in response name:" + name );
+//    	}
+//    	else{
+//    		System.out.println("cookie <" + name +"> doesn't exist ...");
+//    	}
+//    	
+//    }
     /*
      * fetchCookieValue method pulls value for cookie from Http request.  If the
      * cookie's not there, it returns null for the cookie value...
      */
     public static String fetchCookieValue(HttpServletRequest request, String name){
     	System.out.println("Inside fetchCookieValue ... name=" + name);
-        String value = null;
-        Cookie cookie = getCookie(request, name);
-    	if(cookie != null) {
-            value = cookie.getValue(); 
-        }
-        return value;
+    	
+        
+        String cookie = getCookie(request, name);
+    	System.out.println("returning =" + cookie);
+        return cookie;
     }
     
     
-    public static Cookie getCookie(HttpServletRequest request, String name){
+    public static String getCookie(HttpServletRequest request, String name){
     	System.out.println("Inside getCookie ... ");
-        Cookie cookie = null;
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (int i = 0; i < cookies.length; i++) {
-                if(cookies [i].getName().equals(name)) {
-                    cookie = cookies[i];
-                    break;
-                }
-            }
-        }
+        String cookie = null;
+        cookie = request.getParameter("data["+name+"]");
+
         return cookie;
     }
 }
