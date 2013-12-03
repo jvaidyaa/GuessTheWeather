@@ -32,12 +32,11 @@ import javax.servlet.jsp.PageContext;
 public class CookieBean {
 	//private static Log log = LogFactory.getLog(CookieBean.class);
 
-	private String agentGuid;
-	private String merchantId;
-	private String customerGuid;
-	private String customerCurrency;
-	private String customerCountry;
-	private String mCareEnv;
+	private String dop;
+	private String email;
+	private String zip;
+	private String prediction;
+
 	
 	
 	public void setCookies(PageContext context){
@@ -50,91 +49,49 @@ public class CookieBean {
 		System.out.println("Inside::setCookies");
 		try {
 			
-			merchantId = AppCookie.fetchCookieValue(request, Utility.merchantCookieName);
-			customerGuid = AppCookie.fetchCookieValue(request,	Utility.customerGuidCookieName);
-			customerCurrency = AppCookie.fetchCookieValue(request,	Utility.customerCurrencyCookieName);
-			customerCountry = AppCookie.fetchCookieValue(request, Utility.customerCountryCookieName);
+			dop = AppCookie.fetchCookieValue(request, "dop");
+			email = AppCookie.fetchCookieValue(request,	"email");
+			zip = AppCookie.fetchCookieValue(request,	"zip");
+			prediction = AppCookie.fetchCookieValue(request,"prediction");
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("Agent: " + getAgentGuid() + " Merchant:" + getMerchantId()
-				+ " customer:" + getCustomerGuid());
+		System.out.println("dop: " + getDop() + " email:" + getEmail()
+				+ " zip:" + getZip());
 	}
 
-	/**
-	 * @return the agentGuid
-	 */
-	public String getAgentGuid() {
-		return agentGuid;
+	public String getDop() {
+		return dop;
 	}
 
-	/**
-	 * @param agentGuid
-	 *            the agentGuid to set
-	 */
-	public void setAgentGuid(String agentGuid) {
-		this.agentGuid = agentGuid;
+	public void setDop(String dop) {
+		this.dop = dop;
 	}
 
-	/**
-	 * @return the merchantId
-	 */
-	public String getMerchantId() {
-		return merchantId;
+	public String getEmail() {
+		return email;
 	}
 
-	/**
-	 * @param merchantId
-	 *            the merchantId to set
-	 */
-	public void setMerchantId(String merchantId) {
-		this.merchantId = merchantId;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
-	/**
-	 * @return the customerGuid
-	 */
-	public String getCustomerGuid() {
-		return customerGuid;
+	public String getZip() {
+		return zip;
 	}
 
-	/**
-	 * @param customerGuid
-	 *            the customerGuid to set
-	 */
-	public void setCustomerGuid(String customerGuid) {
-		this.customerGuid = customerGuid;
+	public void setZip(String zip) {
+		this.zip = zip;
 	}
 
-	/**
-	 * @return the customerCurrency
-	 */
-	public String getCustomerCurrency() {
-		return customerCurrency;
+	public String getPrediction() {
+		return prediction;
 	}
 
-	/**
-	 * @param customerCurrency
-	 *            the customerCurrency to set
-	 */
-	public void setCustomerCurrency(String customerCurrency) {
-		this.customerCurrency = customerCurrency;
+	public void setPrediction(String prediction) {
+		this.prediction = prediction;
 	}
 
-	/**
-	 * @return the customerCountry
-	 */
-	public String getCustomerCountry() {
-		return customerCountry;
-	}
-
-	/**
-	 * @param customerCountry
-	 *            the customerCountry to set
-	 */
-	public void setCustomerCountry(String customerCountry) {
-		this.customerCountry = customerCountry;
-	}
 
 }

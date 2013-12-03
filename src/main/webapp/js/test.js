@@ -7,13 +7,27 @@ var getInputFieldValue = function(selector){
 };
 
 function save () {
-	var dop = getInputFieldValue("#dop");
-	var zip = getInputFieldValue("#zip");
-	var email = getInputFieldValue("#email");
-	var prediction = getInputFieldValue("#prediction");
+	var dop = document.getElementById("dop");
+	if (dop != null){
+		dop = dop.value;
+	}
+	
+	var zip = document.getElementById("zip");
+	if (zip != null){
+		zip = zip.value;
+	}
+	
+	var email = document.getElementById("email");
+	if (email != null){
+		email = email.value;
+	}
+	var prediction = document.getElementById("prediction");
+	if (prediction != null){
+		prediction = prediction.value;
+	}
 	
                          var tmData = {
-                         "url" : "SavePredicion.jsp",
+                         "url" : "include/SavePrediction.jsp",
                          "data" : {
                                     			"dop" : escape(dop),
                                     			"zip" : escape(zip),
@@ -21,14 +35,21 @@ function save () {
                                     			"prediction" : escape(prediction)
                                   }
                            };
+                         alert (" dop " + dop);
+                         alert (" zip " + zip);
+                         
+                         alert (" email " + email);
+                         
+                         alert (" prediction " + prediction);
                          
                           performAction = true;
                          
                          
                          if (performAction) {
                              // send the request
-                             var ajaxParams = {"url": "include/SavePredicion.jsp",
-                                                 data: rmData,
+                        	 alert(" just before call to SavePrediction ")
+                             var ajaxParams = {"url": "SavePrediction.jsp",
+                                                 data: tmData,
                                                  dataType: "html",
                                                  contentType: null
                                               };
@@ -58,7 +79,7 @@ function save () {
                                  	     $(".popup_error").show();
                                    }
                              };
-                             doAjaxCall(ajaxParams, null, callbackFn);
+                             doAjaxCall(ajaxParams, null, callbackFn,true);
                          }
            
 }

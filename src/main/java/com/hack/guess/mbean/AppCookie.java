@@ -92,14 +92,6 @@ public class AppCookie {
         Cookie cookie = getCookie(request, name);
     	if(cookie != null) {
             value = cookie.getValue(); 
-            if (Utility.isNotNullOrEmpty(value)){
-            	try{
-            		value =  value;
-                }catch (Exception e) {
-                	System.out.println("Decrypt cookie value failed ... \n");
-                	e.printStackTrace();
-                }
-            }
         }
         return value;
     }

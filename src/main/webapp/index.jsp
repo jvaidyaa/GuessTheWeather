@@ -6,8 +6,11 @@
 <title>Guess The Weather</title>
 <link href="css/normalize.css" rel="stylesheet" type="text/css">
 <link href="css/style.css" rel="stylesheet" type="text/css">
+>
 <script src="js/jquery.js"></script>
 <script src="js/test.js"></script>
+<script src="js/ajaxProvider.js"></script>
+
 
 <!--[if lt IE 9]>
 	<link rel="stylesheet" type="text/css" href="assets/css/ie8-and-down.css" />
@@ -32,25 +35,25 @@
           <form action="" method="post">
             <p>
               <label>Date of Prediction</label>
-              <input type="text" name="dop" size="7">
+              <input type="text" name="dop" id="dop" size="7">
             </p>
             <br>
             <br>
             <p>
               <label>Zip Code</label>
-              <input type="text" name="zip" size="7">
+              <input type="text" name="zip" id="zip" size="7">
             </p>
             <br>
             <br>
             <p>
               <label>Email ID</label>
-              <input type="email" name="email" size="15">
+              <input type="text" name="email" id="email"  size="15">
             </p>
             <br>
             <br>
             <p>
               <label>Please enter your Predction</label>
-              <input type="text" name="predction" size="7">
+              <input type="text" name="predction" id="prediction" size="7">
             </p>
             <p>
               <button type="button" onclick="save()">save</button> 
