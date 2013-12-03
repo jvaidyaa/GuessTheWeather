@@ -35,8 +35,8 @@ import org.apache.tomcat.dbcp.dbcp.BasicDataSource;
 
 
 public class SavePredictionMB extends AbstractMessageBean {
-	private static final String INSERT_WEATHER = "INSERT INTO weather_data (weather_id, email_address, zip_code, weather_value, weather_date)" +
-			" VALUES (weather_sq.nextval, :email_address, :zip_code, :weather_value, :weather_date ";
+	private static final String INSERT_WEATHER = "INSERT INTO weather_data (weather_id, email_address, zip_code, weather_value, weather_date, created_by, created_dt)" +
+			" VALUES (weather_sq.nextval, :email_address, :zip_code, :weather_value, :weather_date, :created_by, sysdate) ";
 
 	//private static Log LOG = LogFactory.getLog(SavePredictionMB.class);
 	
@@ -172,6 +172,7 @@ public class SavePredictionMB extends AbstractMessageBean {
 				stmt.setString(2, zipCode);
 				stmt.setString(3, weatherValue);	
 				stmt.setString(4,  weatherDate);
+				stmt.setString(5, "insert");
 				
 				stmt.executeUpdate();
 				
