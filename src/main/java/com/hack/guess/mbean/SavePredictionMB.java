@@ -13,6 +13,9 @@
 package com.hack.guess.mbean;
 
 import java.net.URLDecoder;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -20,16 +23,24 @@ import java.util.Enumeration;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
-
+import org.apache.tomcat.dbcp.dbcp.BasicDataSource;
 
 
 public class SavePredictionMB extends AbstractMessageBean {
+	private static final String INSERT_WEATHER = "INSERT INTO weather_data (weather_id, email_address, zip_code, weather_value, weather_date)" +
+			" VALUES (weather_sq.nextval, :email_address, :zip_code, :weather_value, :weather_date ";
+
 	//private static Log LOG = LogFactory.getLog(SavePredictionMB.class);
+	
+	private static BasicDataSource dataSource = null;
 	
 	private List<String> contractNames;
 	public String contractName;
@@ -63,6 +74,21 @@ public class SavePredictionMB extends AbstractMessageBean {
 		this.contractNames = contractNames;
 	}
 
+	public static BasicDataSource getDataSource() throws Exception {
+		if (dataSource == null) {
+
+			Context initCtx = new InitialContext();
+			System.out.println("Got initial context");
+			dataSource = (BasicDataSource) initCtx
+					.lookup("java:comp/env/jdbc/ObiConfigDB");
+			if (null == dataSource.getUsername()) {
+				System.out.println("username is null");
+				//setDataSourceProperties();
+			}
+		}
+		return dataSource;
+	}
+
 	@Override
 	public void documentBuilder() {
 		
@@ -70,8 +96,10 @@ public class SavePredictionMB extends AbstractMessageBean {
 
 		if (request.getParameter("save") != null) {
 			System.out.println("Inside save " );
-			String tosName = null;
-			String wbsValue = null;
+			String emailAddress = null;
+			String zipCode = null;
+			String weatherValue = null;
+			String weatherDate = null;
 			Enumeration params = request.getParameterNames();
 			while (params.hasMoreElements()) {
 				String pName = "" + params.nextElement();
@@ -96,14 +124,24 @@ public class SavePredictionMB extends AbstractMessageBean {
 					continue;
 				}
 				
-				if ("eventType".equals(pName)) {
-					System.out.println(" tos Name is " + pValue);
-					tosName = pValue;
+				if ("email".equals(pName)) {
+					System.out.println("email address:  " + pValue);
+					emailAddress = pValue;
 					continue;
 				}
-				if ("wbs".equals(pName)) {
-					System.out.println(" wbs Name is " + pValue);
-					wbsValue = pValue;
+				if ("zip".equals(pName)) {
+					System.out.println("zip code:  " + pValue);
+					zipCode = pValue;
+					continue;
+				}
+				if ("prediction".equals(pName)) {
+					System.out.println("weather value:  " + pValue);
+					weatherValue = pValue;
+					continue;
+				}
+				if ("dop".equals(pName)) {
+					System.out.println("dop value:  " + pValue);
+					weatherDate = pValue;
 					continue;
 				}
 			}
@@ -112,15 +150,45 @@ public class SavePredictionMB extends AbstractMessageBean {
 //			String luid = customerGUID;
 //			Contract contract = new Contract();
 			//Calendar today = Calendar.getInstance();
-			XMLGregorianCalendar today = null;
+//			XMLGregorianCalendar today = null;
+//			try {
+//			  today = DatatypeFactory.newInstance()
+//			    .newXMLGregorianCalendar(
+//			        new GregorianCalendar());
+//			  
+//			} catch (DatatypeConfigurationException e) {
+//			  e.printStackTrace();
+//			}
+			
+			Connection conn = null;
+			PreparedStatement stmt = null;
+
 			try {
-			  today = DatatypeFactory.newInstance()
-			    .newXMLGregorianCalendar(
-			        new GregorianCalendar());
-			  
-			} catch (DatatypeConfigurationException e) {
-			  e.printStackTrace();
+				conn = getDataSource().getConnection();
+				
+				stmt = conn.prepareStatement(INSERT_WEATHER);
+				
+				stmt.setString(1, emailAddress);
+				stmt.setString(2, zipCode);
+				stmt.setString(3, weatherValue);	
+				stmt.setString(4,  weatherDate);
+				
+				stmt.executeUpdate();
+				
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} finally {
+				try {
+					if (conn != null) conn.close();
+					if (stmt != null) stmt.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
+			 
+
 			
 //			contract.setAcceptedDate(today);
 //			contract.setStatus(ContractStatusType.NOT_ACCEPTED);
