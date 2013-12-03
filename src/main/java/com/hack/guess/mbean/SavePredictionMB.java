@@ -109,7 +109,7 @@ public class SavePredictionMB extends AbstractMessageBean {
 								"UTF-8").trim();
 	
 						//if (pValue == null || pValue.isEmpty() || pValue.length() > 256) {
-                                                if (Utility.isNullOrEmpty(pValue) || pValue.length() > 256) {
+                                                if (pValue == null) {
 							throw new Exception("Bad propery value " + pName + "="+ request.getParameter(pName));
 					        }
 				} catch (Exception e1) {
