@@ -10,7 +10,8 @@
 <script src="js/jquery.js"></script>
 <script src="js/test.js"></script>
 <script src="js/ajaxProvider.js"></script>
-
+<script src="js/jQueryRotate.js"></script>
+<script src="js/functions.js"></script>
 
 <!--[if lt IE 9]>
 	<link rel="stylesheet" type="text/css" href="assets/css/ie8-and-down.css" />
@@ -30,8 +31,19 @@
       <article class="page-content">
         <h3 class="big-heading">The Wheel of Weather</h3>
         <section class="page-inner">
-          <div class="feature-img"> <img src="images/temprature.png" alt=""> </div>
+						<div class="feature-img">
+							<img id="wheel" src="images/temprature.png" alt=""> 
+							<img id="arrow" src="images/arrow.png" alt="">
+						</div>
           <h3>Welcome</h3>
+          						<p id="today">Today's Forecast</p>
+						<br> <br>
+						<p id="pp">
+							<button onclick="spinWheel()"
+								style="width: 200px; font-size: 100%">Spin the Wheel
+								!!!</button>
+						</p>
+						<br> <br>
           <form action="" method="post">
             <p>
               <label>Date of Prediction</label>
