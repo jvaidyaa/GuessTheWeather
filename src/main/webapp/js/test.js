@@ -35,19 +35,14 @@ function save () {
                                     			"prediction" : escape(prediction)
                                   }
                            };
-                         alert (" dop " + dop);
-                         alert (" zip " + zip);
-                         
-                         alert (" email " + email);
-                         
-                         alert (" prediction " + prediction);
+  
                          
                           performAction = true;
                          
                          
                          if (performAction) {
                              // send the request
-                        	 alert(" just before call to SavePrediction ")
+                        	 //alert(" just before call to SavePrediction ")
                              var ajaxParams = {"url": "SavePrediction.jsp",
                                                  data: tmData,
                                                  dataType: "html",
@@ -80,6 +75,7 @@ function save () {
                                    }
                              };
                              doAjaxCall(ajaxParams, null, callbackFn,true);
+                             alert(" your entry has been submitted ")
                          }
            
 }
