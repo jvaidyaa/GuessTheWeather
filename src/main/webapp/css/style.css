@@ -144,7 +144,7 @@ display: inline-block;
 aside {
 position: relative;
 background: url(../images/wall.png);
-min-height: 382px;
+min-height: 523px;
 width: 31.0344827586%;
 float: right;
 font-size: 0.78125em;
@@ -241,4 +241,8 @@ position: relative;
 left: -126px;
 top: -160px;
 z-index: 2;
+}
+
+#pp {
+	margin-top: 20px;
 }

@@ -6,7 +6,7 @@
 <title>Guess The Weather</title>
 <link href="css/normalize.css" rel="stylesheet" type="text/css">
 <link href="css/style.css" rel="stylesheet" type="text/css">
->
+
 <script src="js/jquery.js"></script>
 <script src="js/test.js"></script>
 <script src="js/ajaxProvider.js"></script>
@@ -38,11 +38,13 @@
           <h3>Welcome</h3>
           						<p id="today">Today's Forecast</p>
 						<br> <br>
-						<p id="pp">
-							<button onclick="spinWheel()"
+						
+						</p>
+							<button id="start" onclick="spinWheel()"
 								style="width: 200px; font-size: 100%">Spin the Wheel
 								!!!</button>
 						</p>
+						<p id="pp">Click the above button to spin the wheel</p>
 						<br> <br>
           <form action="" method="post">
             <p>

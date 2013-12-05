@@ -1,4 +1,5 @@
 function spinWheel() {
+	$("#start").attr("disabled", true);
 	$("#wheel").rotate({
 		duration : 6000,
 		angle : 0,
